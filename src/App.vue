@@ -1,16 +1,15 @@
 <template>
   <div>
-    <add-blog></add-blog>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import addBlog from "./components/addBlog.vue";
 
 export default {
   name: "App",
   components: {
-    "add-blog": addBlog,
+
   },
   data() {
     return {};

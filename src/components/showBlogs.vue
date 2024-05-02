@@ -3,8 +3,10 @@
     <h1>All Blogs Articles</h1>
     <input type="text" v-model="search" placeholder="Search blogs">
     <article v-for="blog in filteredBlogs" :key="blog.id" class="single-blog">
-      <h2 v-rainbow>{{ blog.title | toCapitalize }}</h2>
-      <p>{{ blog.body | snippet | toCapitalize }}</p>
+      <router-link :to="'/blog/' + blog.id">
+        <h2 v-rainbow>{{ blog.title | toCapitalize }}</h2>
+        <p>{{ blog.content | snippet | toCapitalize}}</p>
+      </router-link>
     </article>
   </div>
 </template>
@@ -24,9 +26,18 @@ export default {
   },
   methods: {},
   created() {
-    this.$http.get("https://jsonplaceholder.typicode.com/posts").then((data) => {
-      this.blogs = data.body.slice(0, 10);
-    });
+    this.$http.get("https://blog-list-1b3fe-default-rtdb.europe-west1.firebasedatabase.app/posts.json").then((res) => {
+      return res.json();
+    }).then((data) => {
+      let blogsArra = [];
+      for (let key in data) {
+        data[key].id = key;
+        blogsArra.push(data[key]);
+      }
+      this.blogs = blogsArra
+      console.log(this.blogs)
+      
+    })
   },
   filters: {
     toCapitalize(value){
@@ -69,6 +80,12 @@ export default {
   border-radius: 20px;
   background-color: #fff;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.single-blog a {
+  color: initial;
+  text-decoration: none;
 }
 
 .single-blog:not(:last-child) {

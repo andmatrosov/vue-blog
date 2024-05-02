@@ -58,11 +58,7 @@ export default {
   methods: {
     post() {
       this.$http
-        .post("https://jsonplaceholder.typicode.com/posts", {
-          title: this.blog.title,
-          body: this.blog.content,
-          userId: 1,
-        })
+        .post("https://blog-list-1b3fe-default-rtdb.europe-west1.firebasedatabase.app/posts.json", this.blog)
         .then((response) => {
           console.log("Success: ", response);
           this.submitted = true;
